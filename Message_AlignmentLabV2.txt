@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rising Rose · Messaging Alignment Lab (Aligned)</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: #fdfaf3;
+      color: #0f172a;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+      border: 1px solid #f1d08a;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #f5b824 0%, #e59b18 100%);
+      color: #111827;
+      padding: 22px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .header-main {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand {
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #78350f;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: 0.95rem;
+      opacity: 0.95;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .stage-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(253, 244, 215, 0.95);
+      border: 1px solid #facc15;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #854d0e;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stage-pill span:first-child {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+    }
+
+    .stage-pill span:last-child {
+      font-weight: 500;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .workspace {
+      flex: 3;
+      padding: 24px 26px 26px 26px;
+    }
+
+    .sidebar {
+      flex: 2;
+      background: #fffbeb;
+      padding: 22px 22px 24px 22px;
+      border-left: 1px solid #f1d08a;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.55rem;
+      color: #111827;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      color: #92400e;
+      margin: 1.3rem 0 0.6rem;
+    }
+
+    p.helper {
+      font-size: 0.95rem;
+      color: #4b5563;
+      margin: 0 0 0.75rem 0;
+      line-height: 1.6;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.28rem;
+      color: #111827;
+      font-size: 0.95rem;
+    }
+
+    .micro-label {
+      font-size: 0.84rem;
+      color: #6b7280;
+      margin-bottom: 0.45rem;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.96rem;
+      margin-bottom: 0.9rem;
+      resize: vertical;
+      background: #fefdf9;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #e59b18;
+      outline: none;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(229, 155, 24, 0.2);
+    }
+
+    .step {
+      background: #fefce8;
+      padding: 1.1rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 1.1rem;
+      border-left: 5px solid #e59b18;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .highlight-box {
+      background: #fffbeb;
+      border: 1px solid #f1d08a;
+      border-radius: 10px;
+      padding: 0.9rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: #4b5563;
+    }
+
+    .output-box {
+      background: #eff6ff;
+      border-radius: 12px;
+      padding: 1.1rem;
+      margin-top: 0.8rem;
+      border: 1px solid #bfdbfe;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #1f2937;
+    }
+
+    .output-title {
+      font-weight: 600;
+      color: #1d4ed8;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      padding: 0.7rem 1.4rem;
+      border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: #e59b18;
+      color: #111827;
+    }
+
+    .btn-primary:hover {
+      background: #c27f10;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(194, 127, 16, 0.3);
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+      margin-left: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .btn-copy {
+      background: #10b981;
+      color: #f9fafb;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn-copy:hover {
+      background: #059669;
+    }
+
+    .copy-row {
+      margin-top: 0.8rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.8rem;
+    }
+
+    .note {
+      font-size: 0.88rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .sidebar-title {
+      font-size: 1.1rem;
+      color: #78350f;
+      margin-bottom: 0.7rem;
+      font-weight: 700;
+    }
+
+    .info-card {
+      background: #fff7d6;
+      border-radius: 10px;
+      padding: 0.9rem 0.9rem;
+      border: 1px solid #f1d08a;
+      margin-bottom: 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .info-card h4 {
+      font-size: 0.9rem;
+      color: #92400e;
+      margin-bottom: 0.35rem;
+    }
+
+    .info-card p {
+      color: #4b5563;
+      line-height: 1.5;
+      font-size: 0.86rem;
+    }
+
+    .tips-list {
+      line-height: 1.7;
+      padding-left: 1.2rem;
+      margin-top: 0.5rem;
+      font-size: 0.88rem;
+      color: #4b5563;
+    }
+
+    .definitions {
+      margin-top: 1rem;
+      background: #fefce8;
+      border-radius: 10px;
+      padding: 0.9rem;
+      border: 1px dashed #facc15;
+      font-size: 0.86rem;
+      color: #4b5563;
+    }
+
+    .definitions h4 {
+      font-size: 0.9rem;
+      color: #854d0e;
+      margin-bottom: 0.3rem;
+    }
+
+    .definitions dt {
+      font-weight: 600;
+      margin-top: 0.4rem;
+    }
+
+    .definitions dd {
+      margin-left: 0;
+      margin-top: 1px;
+    }
+
+    .readiness-reminder {
+      margin-top: 0.9rem;
+      background: #fefce8;
+      border-radius: 8px;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid #f1d08a;
+      font-size: 0.82rem;
+      color: #4b5563;
+    }
+
+    .readiness-reminder strong {
+      color: #92400e;
+    }
+
+    @media (max-width: 900px) {
+      .main {
+        flex-direction: column;
+      }
+      .sidebar {
+        border-left: none;
+        border-top: 1px solid #f1d08a;
+      }
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-main">
+        <div class="brand">Rising Rose · Stage 2 · Aligned</div>
+        <h1>Messaging Alignment Lab</h1>
+        <p>
+          You already have a core client message. This lab lines it up with your
+          buyer’s real day and turns it into small, usable pieces of copy you
+          can repeat across channels.
+        </p>
+      </div>
+      <div class="stage-pill">
+        <span>Stage 2 · Aligned</span>
+        <span>Question: Does my message meet their real life?</span>
+      </div>
+    </header>
+
+    <div class="main">
+      <section class="workspace">
+        <!-- Step 0 -->
+        <h2>Step 0 · Bring In Your Core Message</h2>
+        <p class="helper">
+          Paste the short version you wrote in the Client-Lens Magnet tool. We
+          will reuse this line in different ways, not reinvent it each time.
+        </p>
+
+        <div class="step">
+          <label for="coreMessage">Your core client-facing line</label>
+          <p class="micro-label">
+            Example: I help work-from-home moms who also homeschool create calm,
+            repeatable weekly plans so their work and lessons both get the time
+            they need.
+          </p>
+          <textarea
+            id="coreMessage"
+            placeholder="Paste your own short version here."
+          ></textarea>
+        </div>
+
+        <!-- Step 1 -->
+        <h2>Step 1 · Map Their Real Day</h2>
+        <p class="helper">
+          You’re naming what their life actually looks like, what isn’t
+          working, how that feels, and what needs to change for them to say
+          “yes”.
+        </p>
+
+        <div class="step">
+          <label for="situation">Situation · what a normal weekday looks like</label>
+          <p class="micro-label">
+            Example: juggling client work, homeschool blocks, and house tasks in
+            the same space and hours.
+          </p>
+          <textarea
+            id="situation"
+            placeholder="Describe a normal weekday in 3–5 simple lines."
+          ></textarea>
+
+          <label for="problem">Problem · what keeps not working</label>
+          <p class="micro-label">
+            Example: plans fall apart by Tuesday, constant switching between
+            roles, never feeling on top of it.
+          </p>
+          <textarea
+            id="problem"
+            placeholder="What keeps breaking or not working, even when they try to fix it?"
+          ></textarea>
+
+          <label for="pain">Pain · how this feels in their body and mind</label>
+          <p class="micro-label">
+            Example: tension, guilt, racing thoughts at night, snapping at kids
+            or clients, feeling like they’re failing at all roles.
+          </p>
+          <textarea
+            id="pain"
+            placeholder="What does this cost them in energy, stress, self-trust, or relationships?"
+          ></textarea>
+
+          <label for="payoff">Payoff needed · what must be true to feel worth it</label>
+          <p class="micro-label">
+            Example: calmer mornings, a simple weekly plan, time blocks that
+            protect both income and kids, and more breathing room.
+          </p>
+          <textarea
+            id="payoff"
+            placeholder="What needs to change for your offer to feel like a clear yes right now?"
+          ></textarea>
+        </div>
+
+        <div class="highlight-box">
+          <strong>Connector</strong><br />
+          Your message works best when it says: “I see the kind of day you’re
+          living, I get what keeps breaking, I know how that actually feels, and
+          I’m clear about what gets better and why it’s worth it.”
+        </div>
+
+        <!-- Step 2 -->
+        <h2>Step 2 · Choose One Channel and Intent</h2>
+        <p class="helper">
+          We’ll shape one piece of messaging at a time, on purpose instead of
+          posting just to post.
+        </p>
+
+        <div class="step">
+          <label for="channel">Channel for this round</label>
+          <select id="channel">
+            <option value="email">Email newsletter or automation</option>
+            <option value="instagramPost">Instagram / Threads feed post</option>
+            <option value="instagramStory">Instagram story</option>
+            <option value="facebook">Facebook post</option>
+            <option value="websiteHero">Website hero (top of page)</option>
+            <option value="aboutSection">About page section</option>
+            <option value="salesPage">Sales page intro</option>
+            <option value="liveConversation">Live conversation (what do you do?)</option>
+            <option value="dmInvite">DM or voice-note invite</option>
+          </select>
+
+          <label for="intent">What is this piece trying to do?</label>
+          <select id="intent">
+            <option value="selfIdentify">
+              Help them recognize themselves (“this is me”)
+            </option>
+            <option value="selfQualify">
+              Help them decide if this is for them (fit or not)
+            </option>
+            <option value="timingFit">
+              Help them see if now is the right time
+            </option>
+            <option value="nextStep">
+              Invite them into a clear, simple next step
+            </option>
+          </select>
+
+          <label for="tone">Tone for this piece</label>
+          <select id="tone">
+            <option value="calm">Calm and steady</option>
+            <option value="warm">Warm and encouraging</option>
+            <option value="direct">Direct and clear</option>
+            <option value="playful">Light and playful</option>
+            <option value="grounded">Grounded and honest</option>
+          </select>
+
+          <div class="highlight-box">
+            <strong>Why this matters</strong><br />
+            Without choosing an intent, it’s easy to write a post or email that
+            feels busy but doesn’t actually move anyone. This step helps you say
+            one clear thing, to one person, for one reason.
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <h2>Step 3 · Build a Simple Flow</h2>
+        <p class="helper">
+          We’ll turn what you wrote into a tiny story: meet them where they are,
+          name what hurts, point to what can change, and offer a next step.
+        </p>
+
+        <div class="step">
+          <div class="two-column">
+            <div>
+              <label for="hook">Opening line · meet the situation or pain</label>
+              <p class="micro-label">
+                One sentence that makes them think “that’s my day”.
+              </p>
+              <textarea
+                id="hook"
+                placeholder="Start by naming their world or how it feels."
+              ></textarea>
+            </div>
+            <div>
+              <label for="middle">Middle · connect situation, pain, payoff</label>
+              <p class="micro-label">
+                2–3 lines that link what’s hard now to what could be different
+                with your support.
+              </p>
+              <textarea
+                id="middle"
+                placeholder="Connect the dots between today and the change you help create."
+              ></textarea>
+            </div>
+          </div>
+
+          <label for="invite" style="margin-top: 0.8rem;"
+            >Invite · next step (simple, no pressure)</label
+          >
+          <p class="micro-label">
+            Example: If this sounds like you, hit reply with “PLAN” and I’ll
+            send you a simple outline. Match the invite to your intent and
+            channel.
+          </p>
+          <textarea
+            id="invite"
+            placeholder="Write one clear, doable next step."
+          ></textarea>
+
+          <button class="btn btn-primary" onclick="buildSnippets()">
+            Build channel-specific snippets
+          </button>
+          <button class="btn btn-secondary" onclick="resetLab()">
+            Start this lab over
+          </button>
+          <p class="note">
+            You can run this as many times as you like with different channels
+            and intents. Save the versions that feel closest to your voice.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <h2>Step 4 · See Your Aligned Snippets</h2>
+        <p class="helper">
+          Below are small pieces of copy based on the same core message and
+          buyer reality. They’re meant to be drafts you tweak, not final
+          scripts.
+        </p>
+
+        <div class="step">
+          <div class="output-box" id="summaryOutput">
+            <div class="output-title">
+              Quick summary of what you mapped
+            </div>
+            <div id="summaryText"></div>
+          </div>
+
+          <div class="copy-row">
+            <div class="output-title">Channel-specific idea</div>
+            <div id="channelOutput"></div>
+            <button class="btn btn-copy" onclick="copyText('channelOutput')">
+              Copy snippet
+            </button>
+          </div>
+
+          <div class="copy-row">
+            <div class="output-title">
+              “What I do” sentence for live conversations
+            </div>
+            <div id="liveOutput"></div>
+            <button class="btn btn-copy" onclick="copyText('liveOutput')">
+              Copy sentence
+            </button>
+          </div>
+
+          <div class="copy-row">
+            <div class="output-title">Website hero idea (top of page)</div>
+            <div id="heroOutput"></div>
+            <button class="btn btn-copy" onclick="copyText('heroOutput')">
+              Copy hero idea
+            </button>
+          </div>
+
+          <p class="note">
+            Notice how all of these pieces repeat the same story in different
+            outfits. That’s message alignment: one clear core, many consistent
+            expressions.
+          </p>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <h3 class="sidebar-title">You are here in Rising Rose</h3>
+
+        <div class="info-card">
+          <h4>Stage 2 · Aligned (Pre‑GTM)</h4>
+          <p>
+            This lab assumes you have a core line from the Client-Lens Magnet.
+            It helps you match that line to your buyer’s real day, and shape it
+            into messages that are kind to both of you.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h4>How this connects</h4>
+          <p>
+            System Building Playground → Client-Lens Magnet → Messaging
+            Alignment Lab. From internal system, to one core client line, to
+            small pieces of copy you can reuse in email, posts, pages, and
+            conversations.
+          </p>
+        </div>
+
+        <h3 style="margin-top: 1.2rem;">
+          How to use this if you’re busy & neurospicy
+        </h3>
+        <ul class="tips-list">
+          <li>Do this in short passes: Step 0–1 today, the rest later.</li>
+          <li>Use bullet phrases. You can smooth into full sentences at the end.</li>
+          <li>
+            Repeat with the same persona but different intent: recognize vs.
+            decide vs. act.
+          </li>
+          <li>
+            Notice which channel feels easiest to write for; you can lean on
+            that first.
+          </li>
+        </ul>
+
+        <h3 style="margin-top: 1.2rem;">How this ties into your system</h3>
+        <p style="color: #4b5563; line-height: 1.6; font-size: 0.88rem;">
+          System Building Playground gave you the big picture of your offers and
+          flow. The Client-Lens Magnet gave you one core buyer-facing line. This
+          lab ties that line to real people, real days, and real channels so
+          when you go to Steward tools, you’re not guessing — you’re repeating.
+        </p>
+
+        <div class="definitions">
+          <h4>Shared Language · Aligned</h4>
+          <dl>
+            <dt>Core line</dt>
+            <dd>
+              Your short, client-facing sentence about who you help and what you
+              help them do.
+            </dd>
+            <dt>Buyer reality</dt>
+            <dd>
+              The actual day, problems, feelings, and payoffs in your person’s
+              life — not just your offer features.
+            </dd>
+            <dt>Snippet</dt>
+            <dd>
+              A small piece of copy (one hook, one story, one invite) that
+              carries the same core message.
+            </dd>
+            <dt>Intent</dt>
+            <dd>
+              The specific job a message is doing: helping them see themselves,
+              decide fit, gauge timing, or take a next step.
+            </dd>
+          </dl>
+        </div>
+
+        <div class="readiness-reminder">
+          <strong>Readiness note:</strong> If you feel totally stuck naming a
+          specific person, day, and payoff, you may still be in a “listening and
+          validation” season. That’s okay. You can use this lab as a sandbox and
+          return after a few more real conversations or Rooted work.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    function getField(id, fallback) {
+      const value = document.getElementById(id).value.trim();
+      return value || fallback;
+    }
+
+    function buildSnippets() {
+      const core = getField(
+        "coreMessage",
+        "I help service-based solopreneurs build steadier, kinder businesses."
+      );
+      const situation = getField(
+        "situation",
+        "Most days are a blur of client work, home responsibilities, and trying to keep money steady."
+      );
+      const problem = getField(
+        "problem",
+        "Plans fall apart by midweek, and they spend most of their time reacting instead of following a simple rhythm."
+      );
+      const pain = getField(
+        "pain",
+        "They go to bed tense and exhausted, feel behind with both clients and family, and wonder if they’re failing at everything."
+      );
+      const payoff = getField(
+        "payoff",
+        "They want a clear plan, realistic time blocks, and calmer days where both work and life have space."
+      );
+
+      const channel = document.getElementById("channel").value;
+      const intent = document.getElementById("intent").value;
+      const tone = document.getElementById("tone").value;
+
+      const hook = getField(
+        "hook",
+        "If your days are a blur of client work, home responsibilities, and constant catch-up, you’re not alone."
+      );
+      const middle = getField(
+        "middle",
+        "There is nothing wrong with you for finding this hard — your life has more moving pieces than most business advice is built for. The right kind of support gives you a simple rhythm you can actually follow, so your work and your life both get to matter."
+      );
+      const invite = getField(
+        "invite",
+        "If this sounds like your world, hit reply and tell me WEEK and I’ll send you a simple outline to start calming your schedule."
+      );
+
+      const summary =
+        `<strong>Persona</strong>: ${core}<br />` +
+        `<strong>Situation</strong>: ${situation}<br />` +
+        `<strong>Problem</strong>: ${problem}<br />` +
+        `<strong>Pain</strong>: ${pain}<br />` +
+        `<strong>Needed payoff</strong>: ${payoff}`.trim();
+      document.getElementById("summaryText").innerHTML = summary;
+
+      let channelLine = "";
+
+      if (channel === "email") {
+        channelLine =
+          "Email idea: open with your hook as the first line, use your middle section as the body, and close with your invite as the PS.";
+      } else if (channel === "instagramPost" || channel === "facebook") {
+        channelLine =
+          "Post idea: use your hook as the first sentence, break your middle into 2–3 short paragraphs, and end with a simple version of your invite — for example, “Save this for your next planning session” or your own call to action.";
+      } else if (channel === "instagramStory") {
+        channelLine =
+          "Story idea: Frame 1 is a short version of your hook, Frame 2 names the problem in one line, Frame 3 names the payoff, Frame 4 shares your invite in a gentle, direct way.";
+      } else if (channel === "websiteHero") {
+        channelLine =
+          "Hero idea: put your core line at the top, one short sentence about the situation and pain underneath, and a button that reflects your invite — for example, “See how this could look for you.”";
+      } else if (channel === "aboutSection") {
+        channelLine =
+          "About page idea: start with a short version of your situation and pain, share one paragraph of your middle, and close the section with your core line as the bridge to your work.";
+      } else if (channel === "salesPage") {
+        channelLine =
+          "Sales page intro idea: use your hook as the first line, add a short paragraph describing the situation and problem, then clearly state your core line and payoff before explaining the details of your offer.";
+      } else if (channel === "liveConversation") {
+        channelLine =
+          "Live conversation idea: when someone asks “what do you do?”, use a simpler version of your core line, then one sentence on the situation, and one sentence on the payoff.";
+      } else if (channel === "dmInvite") {
+        channelLine =
+          "DM / voice-note idea: send a short version of your hook, one line about the payoff, and a gentle invite like “If that sounds like your world, I can send you a simple outline to start with.”";
+      }
+
+      if (intent === "selfIdentify") {
+        channelLine +=
+          " Focus this round on helping them think, “that is my exact day” rather than pushing them to take action.";
+      } else if (intent === "selfQualify") {
+        channelLine +=
+          " Add one line that clearly names who this is for and who it’s not for, so they can decide if it fits their situation.";
+      } else if (intent === "timingFit") {
+        channelLine +=
+          " Add a line that helps them see when your support makes the most sense — for example, “especially if you’re already booked with clients and can’t just drop your work hours.”";
+      } else if (intent === "nextStep") {
+        channelLine +=
+          " Make sure your invite is simple and doable in under two minutes, like replying, saving, or filling a very short form.";
+      }
+
+      let toneNote = "";
+      if (tone === "calm") {
+        toneNote =
+          " Keep your sentences short and steady. Avoid drama; lean into relief and stability.";
+      } else if (tone === "warm") {
+        toneNote =
+          " Use gentle language and affirm their efforts as you write. You can add small, honest encouragements.";
+      } else if (tone === "direct") {
+        toneNote =
+          " Be clear and to the point. Name what’s hard without circling around it or apologizing for your clarity.";
+      } else if (tone === "playful") {
+        toneNote =
+          " You can use light humor or familiar images from daily life (e.g., “laundry mountain” or cold coffee). Stay honest and grounded, not hypey.";
+      } else if (tone === "grounded") {
+        toneNote =
+          " Keep your language simple, concrete, and honest. Focus on what you can actually help with, not promises you can’t keep.";
+      }
+
+      channelLine += toneNote;
+      document.getElementById("channelOutput").innerText = channelLine;
+
+      const liveSentence = `${core} Most of the people I work with are living days like this: ${situation} I help them move from ${problem} toward ${payoff} in small, realistic steps.`;
+      document.getElementById("liveOutput").innerText = liveSentence;
+
+      const heroIdea = `${core} If your days look like ${situation.toLowerCase()} and you’re tired of ${pain.toLowerCase()}, this space is built to help you move toward ${payoff.toLowerCase()} one week at a time.`;
+      document.getElementById("heroOutput").innerText = heroIdea;
+    }
+
+    function copyText(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      if (!text) {
+        alert("There is nothing to copy yet. Try building your snippets first.");
+        return;
+      }
+      if (!navigator.clipboard) {
+        alert(
+          "Your browser doesn’t support one-click copy. You can manually select and copy the text."
+        );
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied. Paste this into your doc, planner, or content tool.");
+      });
+    }
+
+    function resetLab() {
+      const confirmReset = confirm(
+        "Clear all fields in this lab and start fresh? Your text will be removed from this page."
+      );
+      if (!confirmReset) return;
+      document
+        .querySelectorAll("input, textarea")
+        .forEach((el) => (el.value = ""));
+      document.getElementById("channel").value = "email";
+      document.getElementById("intent").value = "selfIdentify";
+      document.getElementById("tone").value = "calm";
+      document.getElementById("summaryText").innerHTML = "";
+      document.getElementById("channelOutput").innerText = "";
+      document.getElementById("liveOutput").innerText = "";
+      document.getElementById("heroOutput").innerText = "";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document
+        .querySelectorAll("input, textarea, select")
+        .forEach((el) => el.addEventListener("change", () => {}));
+    });
+  </script>
+</body>
+</html>
